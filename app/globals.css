@@ -1,0 +1,105 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    @apply font-jetbrains bg-almostBlack text-almostWhite;
+  }
+  input,
+  textarea,
+  button,
+  select,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+@layer components {
+  .box {
+    @apply text-[16px] flex items-center cursor-pointer md:text-[18px];
+  }
+  input[type=checkbox] {
+    @apply w-5 h-5 bg-almostBlack border-[2px] border-almostWhite mr-5 cursor-pointer grid place-content-center relative md:mr-6;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+         appearance: none;
+  }
+  input[type=checkbox]:checked {
+    @apply bg-green w-5 h-5 border-green;
+  }
+  input[type=checkbox]::before {
+    content: "✓";
+    @apply ease-in-out duration-300  opacity-0 text-almostBlack;
+  }
+  input[type=checkbox]:checked::before {
+    content: url("../assets/images/icon-check.svg");
+    @apply opacity-100 absolute left-[1px] top-[-2px] md:top-[-5px];
+  }
+  .strength-bar {
+    @apply border-[2px] border-almostWhite bg-almostBlack w-[10px] h-[28px] block;
+  }
+  input[type=range] {
+    @apply bg-almostBlack h-2 cursor-pointer w-full border-none outline-none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+         appearance: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    @apply bg-almostWhite h-7 w-7 rounded-full border-none;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+  }
+  input[type=range]::-moz-range-thumb {
+    @apply border-none rounded-none bg-almostWhite h-7 w-7;
+    -moz-transition: 0.2s ease;
+    transition: 0.2s ease;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]:focus::-webkit-slider-thumb,
+  input[type=range]:hover::-webkit-slider-thumb {
+    @apply bg-almostBlack;
+    border: 2px solid #A4FFAF;
+  }
+  input[type=range]:focus::-moz-range-thumb,
+  input[type=range]:hover::-moz-range-thumb {
+    @apply bg-almostBlack;
+    border: 2px solid #A4FFAF;
+  }
+}
+@layer utilities {
+  .fadein {
+    animation: slide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+  @keyframes slide {
+    0% {
+      transform: translateY(100px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  .fadeout {
+    animation: fadeout 0.3s ease-in-out;
+  }
+  @keyframes fadeout {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 100;
+    }
+  }
+}/*# sourceMappingURL=globals.css.map */
