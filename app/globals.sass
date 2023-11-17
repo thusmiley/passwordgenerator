@@ -28,12 +28,9 @@
 @layer components
     .box
         @apply text-[16px] flex items-center cursor-pointer md:text-[18px]
-        // user-select: none
-        // -webkit-user-select: none
-        // -moz-user-select: none
 
     input[type='checkbox']
-        @apply w-5 h-5 bg-almostBlack border-[2px] border-almostWhite mr-5 cursor-pointer grid place-content-center relative md:mr-6
+        @apply w-5 h-5 bg-almostBlack border-[2px] border-almostWhite mr-5 cursor-pointer grid place-content-center relative hover:border-green md:mr-6 
         -webkit-appearance: none
         appearance: none
 
@@ -57,10 +54,10 @@
         appearance: none
 
     input[type="range"]::-webkit-slider-thumb
-        @apply bg-almostWhite h-7 w-7 rounded-full border-none
+        @apply bg-almostWhite h-7 w-7 rounded-full border-[2px] border-almostWhite
         -webkit-appearance: none
         appearance: none
-        transition: 0.2s ease
+        transition: 0.1s ease
 
     input[type="range"]::-moz-range-thumb
         @apply border-none rounded-none bg-almostWhite h-7 w-7
@@ -79,28 +76,10 @@
         @apply bg-almostBlack
         border: 2px solid #A4FFAF
 
-    // label, .errorMsg
-    //     @apply text-[12px] tracking-[-0.21px] 
-
-    // .errorMsg 
-    //     @apply font-medium text-[#CD2C2C] absolute top-[5px]  right-0
-    
 // utitlities
 @layer utilities
-    .fadein 
-        animation: slide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both
-    @keyframes slide 
-        0% 
-            -webkit-transform: translateY(100px)
-            transform: translateY(100px)
-        100% 
-            -webkit-transform: translateY(0)
-            transform: translateY(0)
+    .copyIcon:hover path
+        @apply fill-almostWhite duration-200
 
-    .fadeout 
-        animation: fadeout 0.3s ease-in-out
-    @keyframes fadeout 
-        0% 
-            opacity: 0
-        100% 
-            opacity: 100
+    .arrowIcon path
+        @apply group-hover:fill-green

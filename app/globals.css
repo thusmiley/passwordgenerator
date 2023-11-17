@@ -28,7 +28,7 @@
     @apply text-[16px] flex items-center cursor-pointer md:text-[18px];
   }
   input[type=checkbox] {
-    @apply w-5 h-5 bg-almostBlack border-[2px] border-almostWhite mr-5 cursor-pointer grid place-content-center relative md:mr-6;
+    @apply w-5 h-5 bg-almostBlack border-[2px] border-almostWhite mr-5 cursor-pointer grid place-content-center relative hover:border-green md:mr-6;
     -webkit-appearance: none;
     -moz-appearance: none;
          appearance: none;
@@ -54,11 +54,11 @@
          appearance: none;
   }
   input[type=range]::-webkit-slider-thumb {
-    @apply bg-almostWhite h-7 w-7 rounded-full border-none;
+    @apply bg-almostWhite h-7 w-7 rounded-full border-[2px] border-almostWhite;
     -webkit-appearance: none;
     appearance: none;
-    -webkit-transition: 0.2s ease;
-    transition: 0.2s ease;
+    -webkit-transition: 0.1s ease;
+    transition: 0.1s ease;
   }
   input[type=range]::-moz-range-thumb {
     @apply border-none rounded-none bg-almostWhite h-7 w-7;
@@ -80,26 +80,10 @@
   }
 }
 @layer utilities {
-  .fadein {
-    animation: slide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  .copyIcon:hover path {
+    @apply fill-almostWhite duration-200;
   }
-  @keyframes slide {
-    0% {
-      transform: translateY(100px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  .fadeout {
-    animation: fadeout 0.3s ease-in-out;
-  }
-  @keyframes fadeout {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 100;
-    }
+  .arrowIcon path {
+    @apply group-hover:fill-green;
   }
 }/*# sourceMappingURL=globals.css.map */
