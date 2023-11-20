@@ -13,7 +13,7 @@ Password Generator App
 
 ### Screenshot
 
-![](/public/preview.jpg)
+![](/public/images/preview.jpg)
 
 ### Links
 
