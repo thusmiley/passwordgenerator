@@ -33,6 +33,9 @@
     -moz-appearance: none;
          appearance: none;
   }
+  input[type=checkbox]:disabled {
+    @apply opacity-40;
+  }
   input[type=checkbox]:checked {
     @apply bg-green w-5 h-5 border-green;
   }

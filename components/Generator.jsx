@@ -4,24 +4,36 @@ import { useState, useEffect } from "react";
 import { uppercase, lowercase, numbers, symbols } from "@/utils/data";
 
 const Generator = () => {
-  const [lengthValue, setLengthValue] = useState("12");
+  const [lengthValue, setLengthValue] = useState("10");
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(false);
   const [password, setPassword] = useState("");
   const [copySuccess, setCopySuccess] = useState("");
-  //   const [strengthValue, setStrengthValue] = useState("");
+  const [strengthValidation, setStrengthValidation] = useState("MEDIUM");
+  const [barColor, setBarColor] = useState("yellow");
+  const [optionSelected, setOptionSelected] = useState(3);
+  const [boxDisabled, setBoxDisabled] = useState(false);
 
   useEffect(() => {
-    handleSubmit();
+    let pool = uppercase.concat(lowercase, numbers);
+    let arr = [];
+    for (let i = 0; i < lengthValue; i++) {
+      let random = Math.floor(Math.random() * pool.length);
+      arr.push(pool[random]);
+    }
+    setPassword(arr.join(""));
   }, []);
-  let pool = [];
-  let strengthBar;
 
-  const handleSubmit = () => {
+  let pool = [];
+  let strengthBar = 0;
+
+  const generateNow = (e) => {
+    e.preventDefault();
     setCopySuccess("");
 
+    // create an array pool of selected checkboxes
     if (includeUppercase) {
       pool = pool.concat(uppercase);
     }
@@ -38,6 +50,7 @@ const Generator = () => {
       pool = pool.concat(symbols);
     }
 
+    // create a random password from the array
     let arr = [];
     for (let i = 0; i < lengthValue; i++) {
       let random = Math.floor(Math.random() * pool.length);
@@ -45,18 +58,35 @@ const Generator = () => {
     }
     setPassword(arr.join(""));
 
-    if (password < 7) {
+    // password strength validation and styling
+    if (lengthValue < 7) {
       strengthBar = 1;
-    } else if (password < 9) {
+      setStrengthValidation("TOO WEAK!");
+      setBarColor("red");
+    } else if (lengthValue < 9) {
       strengthBar = 2;
-    } else if (password < 12) {
+      setStrengthValidation("WEAK");
+      setBarColor("orange");
+    } else if (lengthValue < 12) {
       strengthBar = 3;
-    } else  {
+      setStrengthValidation("MEDIUM");
+      setBarColor("yellow");
+    } else {
       strengthBar = 4;
+      setStrengthValidation("STRONG");
+      setBarColor("green");
     }
-
-    return password;
   };
+
+  // make sure there's always at least one checkbox checked
+  useEffect(() => {
+    console.log(optionSelected);
+    if (optionSelected === 1) {
+      setBoxDisabled(true);
+    } else {
+      setBoxDisabled(false);
+    }
+  }, [optionSelected]);
 
   return (
     <>
@@ -84,7 +114,7 @@ const Generator = () => {
 
       {/* generator */}
       <div className="bg-darkGrey p-4 md:py-6 md:px-8">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={generateNow}>
           <div className="form-control">
             <label className="flex justify-between items-center text-[16px] md:text-[18px]">
               Character Length <span className="text-[24px] leading-[31px] text-green md:text-[32px]">{lengthValue}</span>
@@ -102,22 +132,54 @@ const Generator = () => {
           </div>
 
           <label className="box mt-8">
-            <input type="checkbox" name="uppercase" id="uppercase" checked={includeUppercase} onChange={() => setIncludeUppercase(!includeUppercase)} />
+            <input
+              type="checkbox"
+              name="uppercase"
+              id="uppercase"
+              checked={includeUppercase}
+              onChange={() => setIncludeUppercase(!includeUppercase)}
+              onClick={() => (!includeUppercase ? setOptionSelected(optionSelected + 1) : setOptionSelected(optionSelected - 1))}
+              disabled={boxDisabled && includeUppercase ? true : false}
+            />
             Include Uppercase Letters
           </label>
 
           <label className="box my-4 md:my-5">
-            <input type="checkbox" name="lowercase" id="lowercase" checked={includeLowercase} onChange={() => setIncludeLowercase(!includeLowercase)} />
+            <input
+              type="checkbox"
+              name="lowercase"
+              id="lowercase"
+              checked={includeLowercase}
+              onChange={() => setIncludeLowercase(!includeLowercase)}
+              onClick={() => (!includeLowercase ? setOptionSelected(optionSelected + 1) : setOptionSelected(optionSelected - 1))}
+              disabled={boxDisabled && includeLowercase ? true : false}
+            />
             Include Lowercase Letters
           </label>
 
           <label className="box mb-4 md:mb-5">
-            <input type="checkbox" name="numbers" id="numbers" checked={includeNumbers} onChange={() => setIncludeNumbers(!includeNumbers)} />
+            <input
+              type="checkbox"
+              name="numbers"
+              id="numbers"
+              checked={includeNumbers}
+              onChange={() => setIncludeNumbers(!includeNumbers)}
+              onClick={() => (!includeNumbers ? setOptionSelected(optionSelected + 1) : setOptionSelected(optionSelected - 1))}
+              disabled={boxDisabled && includeNumbers ? true : false}
+            />
             Include Numbers
           </label>
 
           <label className="box mb-8 md:mb-[30px]">
-            <input type="checkbox" name="symbols" id="symbols" checked={includeSymbols} onChange={() => setIncludeSymbols(!includeSymbols)} />
+            <input
+              type="checkbox"
+              name="symbols"
+              id="symbols"
+              checked={includeSymbols}
+              onClick={() => (!includeSymbols ? setOptionSelected(optionSelected + 1) : setOptionSelected(optionSelected - 1))}
+              onChange={() => setIncludeSymbols(!includeSymbols)}
+              disabled={boxDisabled && includeSymbols ? true : false}
+            />
             Include Symbols
           </label>
 
@@ -125,28 +187,27 @@ const Generator = () => {
           <div className="bg-almostBlack p-4 flex justify-between items-center md:py-6 md:px-8">
             <p className="text-[16px] text-lightGrey md:text-[18px]">STRENGTH</p>
             <div className="flex items-center">
-              <p className="text-[18px] text-almostWhite md:text-[24px]">
-                {strengthBar === 1 && "TOO WEAK!"}
-                {strengthBar === 2 && "WEAK"}
-                {strengthBar === 3 && "MEDIUM"}
-                {strengthBar === 4 && "STRONG"}
-              </p>
+              <p className="text-[18px] text-almostWhite md:text-[24px]">{strengthValidation}</p>
+
               <div className="space-x-2 ml-4 flex items-center">
                 <span
-                  className={`${strengthBar === 1 ? "bg-red" : ""} ${strengthBar === 2 ? "bg-orange" : ""} ${strengthBar === 3 ? "bg-yellow" : ""} ${
-                    strengthBar === 4 ? "bg-green" : ""
-                  } strength-bar`}
+                  className={`${barColor === "red" ? "bg-red border-red" : ""} ${barColor === "orange" ? "bg-orange border-orange" : ""} ${
+                    barColor === "yellow" ? "bg-yellow border-yellow" : ""
+                  } ${barColor === "green" ? "bg-green border-green" : ""} strength-bar`}
                 ></span>
-                <span className={`${strengthBar === 2 ? "bg-orange" : ""} ${strengthBar === 3 ? "bg-yellow" : ""} ${strengthBar === 4 ? "bg-green" : ""} strength-bar`}></span>
-                <span className={`${strengthBar === 3 ? "bg-yellow" : ""} ${strengthBar === 4 ? "bg-green" : ""} strength-bar`}></span>
-                <span className={`${strengthBar === 4 ? "bg-green" : ""} strength-bar`}></span>
+                <span
+                  className={`${barColor === "orange" ? "bg-orange border-orange" : ""} ${barColor === "yellow" ? "bg-yellow border-yellow" : ""} ${
+                    barColor === "green" ? "bg-green border-green" : ""
+                  }  strength-bar`}
+                ></span>
+                <span className={`${barColor === "yellow" ? "bg-yellow border-yellow" : ""} ${barColor === "green" ? "bg-green border-green" : ""}  strength-bar`}></span>
+                <span className={`${barColor === "green" ? "bg-green border-green" : ""}  strength-bar`}></span>
               </div>
             </div>
           </div>
 
           <button
-            type="button"
-            onClick={handleSubmit}
+            type="submit"
             className="group bg-green text-almostBlack text-[16px] inline-flex justify-center items-center py-[18px] w-full mt-4 duration-150 hover:bg-darkGrey hover:text-green border-[2px] border-green md:mt-8 md:text-[18px]"
           >
             GENERATE

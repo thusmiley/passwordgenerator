@@ -32,7 +32,10 @@
     input[type='checkbox']
         @apply w-5 h-5 bg-almostBlack border-[2px] border-almostWhite mr-5 cursor-pointer grid place-content-center relative hover:border-green md:mr-6 
         -webkit-appearance: none
-        appearance: none
+        appearance: none 
+
+    input[type='checkbox']:disabled
+        @apply opacity-40
 
     input[type='checkbox']:checked
         @apply bg-green w-5 h-5 border-green
