@@ -17,8 +17,8 @@ Password Generator App
 
 ### Links
 
-- Git URL: 
-- Live Site URL: 
+- Git URL: https://github.com/thusmiley/passwordgenerator.git
+- Live Site URL: https://passwordgenerator-gamma-two.vercel.app/
 
 ### Built with
 
